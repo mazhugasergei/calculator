@@ -1,13 +1,88 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
 }
+
+body {
+  font-family: sans-serif;
+  height: 100%;
+  background: #e8e8e8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator {
+  width: 100vw;
+  max-width: 42vh;
+  font-weight: bold;
+  border-radius: 2vh;
+  overflow: hidden;
+  color: #eef0f2;
+  box-shadow: 0 0 20px #ccc;
+  background: #22252d;
+}
+.calculator .display {
+  text-align: right;
+  font-size: 8vh;
+  padding: 12vh 2vh 4vh;
+}
+.calculator .display div:nth-child(1) {
+  font-size: 4vh;
+  font-weight: normal;
+}
+.calculator .display div:nth-child(2) {
+  overflow-x: scroll;
+}
+.calculator .numpad {
+  background: #2a2c37;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  font-size: 2.5vh;
+  padding: 1vh;
+  border-radius: 2vh;
+}
+.calculator .numpad .button {
+  cursor: pointer;
+  background: #272a32;
+  border-radius: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8vh;
+  height: 8vh;
+  margin: 0.8vh auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.calculator .numpad .button:nth-child(-n+3) {
+  color: #26f3cd;
+}
+.calculator .numpad .button:nth-child(4n) {
+  color: #d66061;
+}
+.calculator .numpad .button:active {
+  filter: brightness(95%);
+}
+.calculator ::-webkit-scrollbar {
+  height: 1vh;
+}
+.calculator ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.calculator ::-webkit-scrollbar-thumb {
+  background: rgba(110, 110, 110, 0.4);
+  border-radius: 100vmax;
+  background-clip: content-box;
+}
+.calculator ::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0);
+}/*# sourceMappingURL=index.css.map */
