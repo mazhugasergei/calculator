@@ -7,34 +7,21 @@ function App() {
   const [currentNumView, setCurrentNumView] = useState(0)
   const [fractional, setFractional] = useState(false)
   const [currentExpression, setCurrentExpression] = useState(123)
-  const [numTmp, setNumTmp] = useState("")
 
   function addDigit(x){
     if(x == "."){
       if(!fractional){
-        if(!currentNum){
-          setCurrentNum(0 + x)
-        }
-        else{
-          setCurrentNum(currentNum + x)
-        }
+        if(!currentNum) setCurrentNum(0 + x)
+        else setCurrentNum(currentNum + x)
         setFractional(true)
       }
     }
-    else if(x == "+-"){
-      setCurrentNum(-currentNum)
-    }
+    else if(x == "+-") setCurrentNum(-currentNum)
     else{
       if(!currentNum) setCurrentNum(x)
       else setCurrentNum(currentNum + x)
     }
   }
-
-  useEffect(()=>{
-    if(isMountet){
-      setCurrentNumView(numTmp)
-    }
-  }, [numTmp])
 
   useEffect(()=>{
     if(isMountet){
@@ -50,7 +37,7 @@ function App() {
         if(j && !(j%3)) tmp = currentNum[l-1-i] + "," + tmp
         else tmp = currentNum[l-1-i] + tmp
       }
-      setNumTmp(tmp)
+      setCurrentNumView(tmp)
     }
   }, [currentNum])
 
@@ -71,8 +58,8 @@ function App() {
   }
 
   function reset(){
-    setCurrentNum(0)
     setFractional(false)
+    setCurrentNum(0)
   }
 
   return (
