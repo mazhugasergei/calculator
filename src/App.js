@@ -11,14 +11,14 @@ function App() {
   function addDigit(x){
     if(x == "."){
       if(!fractional){
-        if(!currentNum) setCurrentNum(0 + x)
+        if(currentNum == 0) setCurrentNum(0 + x)
         else setCurrentNum(currentNum + x)
         setFractional(true)
       }
     }
-    else if(x == "+-") setCurrentNum(-currentNum)
+    else if(x == "+-") setCurrentNum((parseFloat(currentNum)*-1).toString())
     else{
-      if(!currentNum) setCurrentNum(x)
+      if(currentNum == 0) setCurrentNum(x)
       else setCurrentNum(currentNum + x)
     }
   }
@@ -59,7 +59,7 @@ function App() {
 
   function reset(){
     setFractional(false)
-    setCurrentNum(0)
+    setCurrentNum("0")
   }
 
   return (
