@@ -5,8 +5,9 @@ function App() {
   const [isMountet, setIsMounted] = useState(false)
   const [currentNum, setCurrentNum] = useState(0)
   const [currentNumView, setCurrentNumView] = useState(0)
-  const [fractional, setFractional] = useState(false)
   const [currentExpression, setCurrentExpression] = useState(123)
+  const [fractional, setFractional] = useState(false)
+  const [negative, setNegative] = useState(false)
 
   function addDigit(x){
     if(x == "."){
@@ -16,7 +17,10 @@ function App() {
         setFractional(true)
       }
     }
-    else if(x == "+-") setCurrentNum((parseFloat(currentNum)*-1).toString())
+    else if(x == "+-"){
+      setCurrentNum((parseFloat(currentNum)*-1).toString())
+      negative ? setNegative(false) : setNegative(true)
+    }
     else{
       if(currentNum == 0) setCurrentNum(x)
       else setCurrentNum(currentNum + x)
@@ -33,9 +37,10 @@ function App() {
         fr_l = l-currentNum.indexOf(".")
         for(let i=0; i<fr_l; i++) tmp = currentNum[l-1-i] + tmp
       }
-      for(let i=fr_l, j=0; i<l; i++, j++){
-        if(j && !(j%3)) tmp = currentNum[l-1-i] + "," + tmp
-        else tmp = currentNum[l-1-i] + tmp
+      for(let i=0; i<l-fr_l; i++){
+        if(negative && i==l-1) tmp = currentNum[l-1-fr_l-i] + tmp
+        else if(i && !(i%3)) tmp = currentNum[l-1-fr_l-i] + "," + tmp
+        else tmp = currentNum[l-1-fr_l-i] + tmp
       }
       setCurrentNumView(tmp)
     }
