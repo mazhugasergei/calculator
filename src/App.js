@@ -9,7 +9,14 @@ function App() {
   const [fractional, setFractional] = useState(false)
   const [negative, setNegative] = useState(false)
 
-  function addDigit(x){
+
+  // prevent useEffect on mount
+  useEffect(()=>{
+    setIsMounted(true)
+  }, [])
+
+
+  function edit(x){
     if(x == "."){
       if(!fractional){
         if(currentNum == 0) setCurrentNum(0 + x)
@@ -27,6 +34,8 @@ function App() {
     }
   }
 
+
+  // format the value before output
   useEffect(()=>{
     if(isMountet){
       // add ","
@@ -46,6 +55,7 @@ function App() {
     }
   }, [currentNum])
 
+
   useEffect(()=>{
     if(isMountet){
       // scroll to right if overflowing
@@ -54,18 +64,17 @@ function App() {
     }
   }, [currentNumView])
 
-  useEffect(()=>{
-    setIsMounted(true)
-  }, [])
 
   function operation(x){
     //operations
   }
 
-  function reset(){
+
+  function clear(){
     setFractional(false)
     setCurrentNum("0")
   }
+
 
   return (
     <div className="calculator">
@@ -74,25 +83,25 @@ function App() {
         <div>{ currentNumView }</div>
       </div>
       <div className="numpad">
-        <div className="button" onClick={reset}>AC</div>
-        <div className="button" onClick={()=>{addDigit("+-")}}>±</div>
+        <div className="button" onClick={clear}>AC</div>
+        <div className="button" onClick={()=>{edit("+-")}}>±</div>
         <div className="button" onClick={()=>{operation("%")}}>%</div>
         <div className="button" onClick={()=>{operation("/")}}>÷</div>
-        <div className="button" onClick={()=>{addDigit("7")}}>7</div>
-        <div className="button" onClick={()=>{addDigit("8")}}>8</div>
-        <div className="button" onClick={()=>{addDigit("9")}}>9</div>
+        <div className="button" onClick={()=>{edit("7")}}>7</div>
+        <div className="button" onClick={()=>{edit("8")}}>8</div>
+        <div className="button" onClick={()=>{edit("9")}}>9</div>
         <div className="button" onClick={()=>{operation("*")}}>×</div>
-        <div className="button" onClick={()=>{addDigit("4")}}>4</div>
-        <div className="button" onClick={()=>{addDigit("5")}}>5</div>
-        <div className="button" onClick={()=>{addDigit("6")}}>6</div>
+        <div className="button" onClick={()=>{edit("4")}}>4</div>
+        <div className="button" onClick={()=>{edit("5")}}>5</div>
+        <div className="button" onClick={()=>{edit("6")}}>6</div>
         <div className="button" onClick={()=>{operation("-")}}>–</div>
-        <div className="button" onClick={()=>{addDigit("1")}}>1</div>
-        <div className="button" onClick={()=>{addDigit("2")}}>2</div>
-        <div className="button" onClick={()=>{addDigit("3")}}>3</div>
+        <div className="button" onClick={()=>{edit("1")}}>1</div>
+        <div className="button" onClick={()=>{edit("2")}}>2</div>
+        <div className="button" onClick={()=>{edit("3")}}>3</div>
         <div className="button" onClick={()=>{operation("+")}}>+</div>
         <div className="button">&lt;</div>
-        <div className="button" onClick={()=>{addDigit(0)}}>0</div>
-        <div className="button" onClick={()=>{addDigit(".")}}>.</div>
+        <div className="button" onClick={()=>{edit(0)}}>0</div>
+        <div className="button" onClick={()=>{edit(".")}}>.</div>
         <div className="button">=</div>
       </div>
     </div>
