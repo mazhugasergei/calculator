@@ -74,10 +74,7 @@ function App() {
 
 
   function operation(x){
-    // x == "*" ? tmp = "×" : x == "/" ? tmp = "÷" : tmp = x
-    if (x == "*") tmp = "×"
-    else if (x == "/") tmp = "÷"
-    else tmp = x
+    x == "*" ? tmp = "×" : x == "/" ? tmp = "÷" : tmp = x
     if(!firstOp){
       let calculated = eval(currentExpression + currentNum)
       setCurrentExpression(calculated + tmp)
