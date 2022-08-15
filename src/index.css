@@ -36,6 +36,7 @@ body {
 .calculator .display div:nth-child(1) {
   font-size: 4vh;
   font-weight: normal;
+  height: 4vh;
 }
 .calculator .display div:nth-child(2) {
   overflow-x: scroll;

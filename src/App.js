@@ -5,9 +5,12 @@ function App() {
   const [isMountet, setIsMounted] = useState(false)
   const [currentNum, setCurrentNum] = useState(0)
   const [currentNumView, setCurrentNumView] = useState(0)
-  const [currentExpression, setCurrentExpression] = useState(123)
+  const [currentExpression, setCurrentExpression] = useState()
+  const [firstOp, setFirstOp] = useState(true)
+  const [currentExpressionView, setCurrentExpressionView] = useState()
   const [fractional, setFractional] = useState(false)
   const [negative, setNegative] = useState(false)
+  let tmp
 
 
   // prevent useEffect on mount
@@ -35,23 +38,28 @@ function App() {
   }
 
 
+  // add ","
+  function toNumView(num){
+    tmp = ""
+    let l = num.length
+    let fr_l = 0 //fractional part length (including ".")
+    if(fractional){
+      fr_l = l-num.indexOf(".")
+      for(let i=0; i<fr_l; i++) tmp = num[l-1-i] + tmp
+    }
+    for(let i=0; i<l-fr_l; i++){
+      if(negative && i==l-1) tmp = num[l-1-fr_l-i] + tmp
+      else if(i && !(i%3)) tmp = num[l-1-fr_l-i] + "," + tmp
+      else tmp = num[l-1-fr_l-i] + tmp
+    }
+    return tmp
+  }
+
+
   // format the value before output
   useEffect(()=>{
     if(isMountet){
-      // add ","
-      let tmp = ""
-      let l = currentNum.length
-      let fr_l = 0 //fractional part length (including ".")
-      if(fractional){
-        fr_l = l-currentNum.indexOf(".")
-        for(let i=0; i<fr_l; i++) tmp = currentNum[l-1-i] + tmp
-      }
-      for(let i=0; i<l-fr_l; i++){
-        if(negative && i==l-1) tmp = currentNum[l-1-fr_l-i] + tmp
-        else if(i && !(i%3)) tmp = currentNum[l-1-fr_l-i] + "," + tmp
-        else tmp = currentNum[l-1-fr_l-i] + tmp
-      }
-      setCurrentNumView(tmp)
+      setCurrentNumView(toNumView(currentNum))
     }
   }, [currentNum])
 
@@ -66,20 +74,40 @@ function App() {
 
 
   function operation(x){
-    //operations
+    // x == "*" ? tmp = "×" : x == "/" ? tmp = "÷" : tmp = x
+    if (x == "*") tmp = "×"
+    else if (x == "/") tmp = "÷"
+    else tmp = x
+    if(!firstOp){
+      let calculated = eval(currentExpression + currentNum)
+      setCurrentExpression(calculated + tmp)
+      setCurrentExpressionView(toNumView(calculated) + " " + tmp)
+    }
+    else{
+      setFirstOp(false)
+      setCurrentExpression(currentNum + tmp)
+      setCurrentExpressionView(currentNumView + " " + tmp)
+    }
+    // currentNumView to disappear only when entering a new num
+    tmp = currentNumView
+    setCurrentNum(0)
+    setTimeout(()=>{setCurrentNumView(tmp)}, 1)
   }
 
 
   function clear(){
     setFractional(false)
     setCurrentNum("0")
+    setCurrentExpression("")
+    setCurrentExpressionView("")
+    setFirstOp(true)
   }
 
 
   return (
     <div className="calculator">
       <div className="display">
-        <div>{ currentExpression }</div>
+        <div>{ currentExpressionView }</div>
         <div>{ currentNumView }</div>
       </div>
       <div className="numpad">
