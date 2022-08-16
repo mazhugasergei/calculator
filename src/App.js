@@ -5,12 +5,8 @@ function App() {
   const [isMountet, setIsMounted] = useState(false)
   const [currentNum, setCurrentNum] = useState(0)
   const [currentNumView, setCurrentNumView] = useState(0)
-  const [currentExpression, setCurrentExpression] = useState()
-  const [firstOp, setFirstOp] = useState(true)
+  const [currentExpression, setCurrentExpression] = useState("")
   const [currentExpressionView, setCurrentExpressionView] = useState()
-  const [fractional, setFractional] = useState(false)
-  const [negative, setNegative] = useState(false)
-  let tmp
 
 
   // prevent useEffect on mount
@@ -21,18 +17,14 @@ function App() {
 
   function edit(x){
     if(x == "."){
-      if(!fractional){
-        if(currentNum == 0) setCurrentNum(0 + x)
-        else setCurrentNum(currentNum + x)
-        setFractional(true)
-      }
+      if(currentNum == 0) setCurrentNum(0 + x)
+      else setCurrentNum(currentNum + x)
     }
     else if(x == "+-"){
       setCurrentNum((parseFloat(currentNum)*-1).toString())
-      negative ? setNegative(false) : setNegative(true)
     }
     else{
-      if(currentNum == 0) setCurrentNum(x)
+      if(currentNum == 0 && currentNum !== "0.") setCurrentNum(x)
       else setCurrentNum(currentNum + x)
     }
   }
@@ -40,15 +32,13 @@ function App() {
 
   // add ","
   function toNumView(num){
-    tmp = ""
+    let tmp = ""
     let l = num.length
     let fr_l = 0 //fractional part length (including ".")
-    if(fractional){
-      fr_l = l-num.indexOf(".")
-      for(let i=0; i<fr_l; i++) tmp = num[l-1-i] + tmp
-    }
+    if(num.indexOf(".") > -1) fr_l = l-num.indexOf(".")
+    for(let i=0; i<fr_l; i++) tmp = num[l-1-i] + tmp
     for(let i=0; i<l-fr_l; i++){
-      if(negative && i==l-1) tmp = num[l-1-fr_l-i] + tmp
+      if(num<0 && i==l-1) tmp = num[l-1-fr_l-i] + tmp
       else if(i && !(i%3)) tmp = num[l-1-fr_l-i] + "," + tmp
       else tmp = num[l-1-fr_l-i] + tmp
     }
@@ -59,7 +49,7 @@ function App() {
   // format the value before output
   useEffect(()=>{
     if(isMountet){
-      setCurrentNumView(toNumView(currentNum))
+      setCurrentNumView(toNumView(currentNum.toString()))
     }
   }, [currentNum])
 
@@ -74,35 +64,51 @@ function App() {
 
 
   function operation(x){
-    x == "*" ? tmp = "×" : x == "/" ? tmp = "÷" : tmp = x
-    if(!firstOp){
-      let calculated = eval(currentExpression + currentNum)
-      setCurrentExpression(calculated + tmp)
-      setCurrentExpressionView(toNumView(calculated) + " " + tmp)
+    // if clicked "<"
+    if(x == "<"){
+      if(currentNum.length > 1) setCurrentNum(currentNum.substring(0, currentNum.length-1))
+      else setCurrentNum(0)
+      return
     }
-    else{
-      setFirstOp(false)
-      setCurrentExpression(currentNum + tmp)
-      setCurrentExpressionView(currentNumView + " " + tmp)
+    // if clicked the same operator, do nothing
+    if(currentExpression.length && currentExpressionView[currentExpressionView.length-1] == x) return
+    // if clicked "="
+    if(x == "=" && currentExpression.length){
+      setCurrentExpression(currentExpression + currentNum)
+      setCurrentExpressionView(currentExpressionView + " " + toNumView(currentNum) + " =")
+      let tmp = eval(currentExpression + currentNum)
+      setCurrentNum(0)
+      setTimeout(()=>{setCurrentNumView(toNumView(tmp.toString()))}, 1)
+      return
     }
+    // if clicked an operator and right after that clicked another one, change the operator
+    if(!currentNum.length && isNaN(currentExpression[currentExpression.length-1])){
+      setCurrentExpression(currentExpression.substring(0, currentExpression.length-1) + x)
+      setCurrentExpressionView(currentExpressionView.substring(0, currentExpressionView.length-1) + x)
+      return
+    }
+    let calculated = eval(currentExpression + currentNum)
+    setCurrentExpression(calculated + x)
+    calculated = toNumView(calculated.toString())
+    setCurrentExpressionView(calculated + " " + x)
     // currentNumView to disappear only when entering a new num
-    tmp = currentNumView
+    let tmp = currentNumView
     setCurrentNum(0)
     setTimeout(()=>{setCurrentNumView(tmp)}, 1)
   }
 
 
   function clear(){
-    setFractional(false)
     setCurrentNum("0")
     setCurrentExpression("")
     setCurrentExpressionView("")
-    setFirstOp(true)
   }
 
 
   return (
     <div className="calculator">
+      <div>currentExpression: { currentExpression }</div>
+      <div>currentNum: { currentNum }</div>
       <div className="display">
         <div>{ currentExpressionView }</div>
         <div>{ currentNumView }</div>
@@ -124,10 +130,10 @@ function App() {
         <div className="button" onClick={()=>{edit("2")}}>2</div>
         <div className="button" onClick={()=>{edit("3")}}>3</div>
         <div className="button" onClick={()=>{operation("+")}}>+</div>
-        <div className="button">&lt;</div>
+        <div className="button" onClick={()=>{operation("<")}}>&lt;</div>
         <div className="button" onClick={()=>{edit(0)}}>0</div>
         <div className="button" onClick={()=>{edit(".")}}>.</div>
-        <div className="button">=</div>
+        <div className="button" onClick={()=>{operation("=")}}>=</div>
       </div>
     </div>
   )
