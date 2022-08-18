@@ -38,6 +38,9 @@ body {
   font-weight: normal;
   height: 4vh;
 }
+.calculator .display div:nth-child(1) .op {
+  color: #d66061;
+}
 .calculator .display div:nth-child(2) {
   overflow-x: scroll;
 }

@@ -68,33 +68,32 @@ function App() {
     if(x == "<"){
       if(currentNum.length > 1) setCurrentNum(currentNum.substring(0, currentNum.length-1))
       else setCurrentNum(0)
-      return
     }
     // if clicked the same operator, do nothing
-    if(currentExpression.length && currentExpressionView[currentExpressionView.length-1] == x) return
+    else if(currentExpression.length && currentExpressionView[currentExpressionView.length-1] == x) return
     // if clicked "="
-    if(x == "=" && currentExpression.length){
+    else if(x == "=" && currentExpression.length){
       setCurrentExpression(currentExpression + currentNum)
       setCurrentExpressionView(currentExpressionView + " " + toNumView(currentNum) + " =")
       let tmp = eval(currentExpression + currentNum)
-      setCurrentNum(0)
+      setCurrentNum("")
       setTimeout(()=>{setCurrentNumView(toNumView(tmp.toString()))}, 1)
-      return
     }
     // if clicked an operator and right after that clicked another one, change the operator
-    if(!currentNum.length && isNaN(currentExpression[currentExpression.length-1])){
+    else if(!currentNum.length && isNaN(currentExpression[currentExpression.length-1])){
       setCurrentExpression(currentExpression.substring(0, currentExpression.length-1) + x)
       setCurrentExpressionView(currentExpressionView.substring(0, currentExpressionView.length-1) + x)
-      return
     }
-    let calculated = eval(currentExpression + currentNum)
-    setCurrentExpression(calculated + x)
-    calculated = toNumView(calculated.toString())
-    setCurrentExpressionView(calculated + " " + x)
-    // currentNumView to disappear only when entering a new num
-    let tmp = currentNumView
-    setCurrentNum(0)
-    setTimeout(()=>{setCurrentNumView(tmp)}, 1)
+    else{
+      let calculated = eval(currentExpression + currentNum)
+      setCurrentExpression(calculated + x)
+      calculated = toNumView(calculated.toString())
+      setCurrentExpressionView(calculated + " " + (x=="*" ? "×" : x=="/" ? "÷" : x))
+      // currentNumView to disappear only when entering a new num
+      let tmp = currentNumView
+      setCurrentNum(0)
+      setTimeout(()=>{setCurrentNumView(tmp)}, 1)
+    }
   }
 
 
@@ -107,8 +106,8 @@ function App() {
 
   return (
     <div className="calculator">
-      <div>currentExpression: { currentExpression }</div>
-      <div>currentNum: { currentNum }</div>
+      {/* <div>currentExpression: { currentExpression }</div>
+      <div>currentNum: { currentNum }</div> */}
       <div className="display">
         <div>{ currentExpressionView }</div>
         <div>{ currentNumView }</div>

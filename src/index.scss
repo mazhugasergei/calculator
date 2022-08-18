@@ -10,6 +10,8 @@ $calc-rounding: 2vh;
 $calc-text-color: #eef0f2;
 $calc-display-bg: #22252d;
 $calc-numpad-bg: #2a2c37;
+$calc-acc-color-1: #26f3cd;
+$calc-acc-color-2: #d66061;
 
 
 
@@ -46,6 +48,9 @@ body{
         font-size: 4vh;
         font-weight: normal;
         height: 4vh;
+        .op{
+          color: $calc-acc-color-2;
+        }
       }
       &:nth-child(2){
         overflow-x: scroll;
@@ -71,10 +76,10 @@ body{
       margin: .8vh auto;
       user-select: none;
       &:nth-child(-n+3){
-        color: #26f3cd;
+        color: $calc-acc-color-1;
       }
       &:nth-child(4n){
-        color: #d66061;
+        color: $calc-acc-color-2;
       }
       &:active{
         filter: brightness(95%);
