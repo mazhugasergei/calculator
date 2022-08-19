@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&display=swap");
 * {
   margin: 0;
   box-sizing: border-box;
@@ -10,51 +11,44 @@ html {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: "M PLUS Rounded 1c";
   height: 100%;
-  background: #e8e8e8;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .calculator {
+  border: 0.6vh solid #000;
   width: 100vw;
   max-width: 42vh;
-  font-weight: bold;
+  font-weight: 900;
   border-radius: 2vh;
   overflow: hidden;
-  color: #eef0f2;
-  box-shadow: 0 0 20px #ccc;
-  background: #22252d;
 }
 .calculator .display {
   text-align: right;
   font-size: 8vh;
-  padding: 12vh 2vh 4vh;
+  font-weight: 700;
+  padding: 6vh 2vh 2vh;
 }
 .calculator .display div:nth-child(1) {
   font-size: 4vh;
-  font-weight: normal;
   height: 4vh;
-}
-.calculator .display div:nth-child(1) .op {
-  color: #d66061;
 }
 .calculator .display div:nth-child(2) {
   overflow-x: scroll;
 }
 .calculator .numpad {
-  background: #2a2c37;
+  border-top: 0.6vh solid #000;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   font-size: 2.5vh;
   padding: 1vh;
-  border-radius: 2vh;
 }
 .calculator .numpad .button {
   cursor: pointer;
-  background: #272a32;
+  border: 0.6vh solid #000;
   border-radius: 2vh;
   display: flex;
   justify-content: center;
@@ -67,14 +61,8 @@ body {
       -ms-user-select: none;
           user-select: none;
 }
-.calculator .numpad .button:nth-child(-n+3) {
-  color: #26f3cd;
-}
-.calculator .numpad .button:nth-child(4n) {
-  color: #d66061;
-}
 .calculator .numpad .button:active {
-  filter: brightness(95%);
+  background: rgba(0, 0, 0, 0.1764705882);
 }
 .calculator ::-webkit-scrollbar {
   height: 1vh;
