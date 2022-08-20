@@ -11,6 +11,7 @@ html {
 }
 
 body {
+  opacity: 0.7;
   font-family: "M PLUS Rounded 1c";
   height: 100%;
   display: flex;
