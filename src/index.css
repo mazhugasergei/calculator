@@ -23,10 +23,9 @@ body {
 
 .calculator {
   overflow: hidden;
-  border: 0.6vh solid #000;
+  outline: 0.6vh solid #000;
   border-radius: 2vh;
-  width: 100vw;
-  max-width: 42vh;
+  width: 42vh;
   font-weight: 900;
 }
 .calculator .display {

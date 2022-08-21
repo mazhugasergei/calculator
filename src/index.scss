@@ -31,12 +31,13 @@ body{
 
 .calculator{
   overflow: hidden;
-  border: $calc-border solid #000;
+  outline: $calc-border solid #000;
   border-radius: $calc-rounding;
-  width: 100vw;
-  max-width: 42vh;
+  width: 42vh;
   font-weight: 900;
   .display{
+    // background: #000;
+    // color: #fff;
     text-align: right;
     font-size: 8vh;
     font-weight: 700;
