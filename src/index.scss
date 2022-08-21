@@ -51,22 +51,35 @@ body{
   }
   .numpad{
     border-top: $calc-border solid #000;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding: 1vh;
+    padding: 2vh;
+    display: flex;
+    flex-wrap: wrap;
     .button{
       border: $calc-border solid #000;
-      border-radius: $calc-rounding;
       cursor: pointer;
       user-select: none;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 8vh;
+      width: 25%;
       height: 8vh;
-      margin: .8vh auto;
       font-size: 2.5vh;
-      &:active{ background: #0000002d; }
+      // &:nth-child(1){ border-top-left-radius: $calc-rounding/1.5; }
+      // &:nth-child(4){ border-top-right-radius: $calc-rounding/1.5; }
+      &:nth-child(17){ border-bottom-left-radius: $calc-rounding/1.5; }
+      &:nth-child(20){ border-bottom-right-radius: $calc-rounding/1.5; }
+      @for $i from 1 through 20 {
+        @if $i%4!=0 {
+          &:nth-child(#{$i}){
+            border-right-width: 0;
+          }
+        }
+        @if $i<17 {
+          &:nth-child(#{$i}){
+            border-bottom-width: 0;
+          }
+        }
+      }
     }
   }
 
